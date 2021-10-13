@@ -49,4 +49,3 @@ If you use this code or KLUE, please cite:
 
 ## Contribution
 
-Feel free to leave issues if there are any questions or comments. To contribute, please run ``make style`` before creating pull requests.
