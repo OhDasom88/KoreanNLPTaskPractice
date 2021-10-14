@@ -11,6 +11,7 @@ from klue_baseline.models import BaseTransformer, Mode
 
 logger = logging.getLogger(__name__)
 
+from tqdm import tqdm # 20211014
 
 class NERTransformer(BaseTransformer):
 

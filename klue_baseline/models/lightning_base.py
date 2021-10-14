@@ -212,7 +212,8 @@ class BaseTransformer(pl.LightningModule):
         parser.add_argument(
             "--model_name_or_path",
             # default='klue/roberta-large',
-            default='klue/roberta-base',# 메모리 에러
+            # default='klue/roberta-base',# 메모리 에러
+            default='klue/roberta-small',# 메모리 에러
             type=str,
             # required=True,
             help="Path to pretrained model or model identifier from huggingface.co/models",
