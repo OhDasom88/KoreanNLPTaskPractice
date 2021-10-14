@@ -177,7 +177,8 @@ def main() -> None:
     if not task:
         raise ValueError(f"task_name is positional argument. task list: {list(KLUE_TASKS.keys())}")
 
-    parser = task.processor_type.add_specific_args(parser, os.getcwd())#<class 'klue_baseline.data.klue_dp.KlueDPProcessor'>
+    # parser = task.processor_type.add_specific_args(parser, os.getcwd())#<class 'klue_baseline.data.klue_dp.KlueDPProcessor'>
+    parser = task.processor_type.add_specific_args(parser, os.path.dirname(__file__))#<class 'klue_baseline.data.klue_dp.KlueDPProcessor'>
     parser = task.model_type.add_specific_args(parser, os.getcwd())#<class 'klue_baseline.models.dependency_parsing.DPTransformer'>
     args = parser.parse_args()
     log_args(args)
