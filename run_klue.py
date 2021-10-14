@@ -127,7 +127,8 @@ def make_klue_trainer(
     train_params["val_check_interval"] = 0.25  # check validation set 4 times during a training epoch
     train_params["num_sanity_val_steps"] = args.num_sanity_val_steps
     train_params["accumulate_grad_batches"] = args.accumulate_grad_batches
-    train_params["profiler"] = extra_train_kwargs.get("profiler", None)
+    # train_params["profiler"] = extra_train_kwargs.get("profiler", None)
+    train_params["profiler"] = extra_train_kwargs.get("profiler", 'simple')
 
     return pl.Trainer.from_argparse_args(
         args,
