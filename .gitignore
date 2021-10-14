@@ -123,6 +123,7 @@ dmypy.json
 
 # custom
 klue_output/
+data/klue_benchmark/
 
 *.tsv
 *.json
