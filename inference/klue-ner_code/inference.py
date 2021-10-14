@@ -11,6 +11,8 @@ from transformers import (AutoModelForTokenClassification, AutoTokenizer,
                           PreTrainedTokenizer)
 from utils import read_data
 
+from tqdm import tqdm
+
 KLUE_NER_OUTPUT = "output.csv"  # the name of the output file should be output.csv
 
 
@@ -155,7 +157,10 @@ class OutputConvertor(object):
         list_of_character_preds = []
         for data, pred in zip(data_list, preds):
             character_preds = self.convert_into_character_pred(data, pred)
-            list_of_character_preds.append(character_preds)
+            # list_of_character_preds.append(character_preds)
+            txt_without_space = [i for i in data['text_a'] if i != ' ']
+            character_lbl_preds = [self.label_list[i] for i in character_preds[1:]]
+            list_of_character_preds.append([(txt_without_space[i], tupl) for (i, tupl) in enumerate(zip(data['original_clean_labels'], character_lbl_preds))])# 20211014
 
         return list_of_character_preds
 
@@ -197,7 +202,7 @@ def inference(args):
 
     # Run Inference
     preds = []
-    for input_ids, token_type_ids, attention_mask, labels in dataloader:
+    for input_ids, token_type_ids, attention_mask, labels in tqdm(dataloader):
         input_ids, token_type_ids, attention_mask, labels = (
             input_ids.to(device),
             token_type_ids.to(device),
@@ -241,27 +246,32 @@ if __name__ == "__main__":
         help="input batch size for inference (default: 64)",
     )
     parser.add_argument(
-        "--data_dir", type=str, default=os.environ.get("SM_CHANNEL_EVAL", "/data")
+        # "--data_dir", type=str, default=os.environ.get("SM_CHANNEL_EVAL", "/data")
+        "--data_dir", type=str, default=f'{os.path.dirname(__file__)}/data'
     )
     parser.add_argument(
-        "--model_dir", type=str, default='./model'
+        # "--model_dir", type=str, default='./model'
+        "--model_dir", type=str, default=f'{os.path.dirname(__file__)}/model'
     )
     parser.add_argument(
-        "--output_dir",
-        type=str,
-        default=os.environ.get("SM_OUTPUT_DATA_DIR", "/output"),
+        # "--output_dir", type=str, default=os.environ.get("SM_OUTPUT_DATA_DIR", "/output"),
+        "--output_dir", type=str, default=f'{os.path.dirname(__file__)}/output',
     )
     parser.add_argument(
         "--model_tar_file",
         type=str,
-        default="klue_ner_model.tar.gz",
+        # default="klue_ner_model.tar.gz",
+        # default="klue_ner_model_klue.tar.gz",
+        default="klue_ner_model_recipe.tar.gz",
         help="it needs to include all things for loading baseline model & tokenizer, \
              only supporting transformers.AutoModelForSequenceClassification as a model \
              transformers.XLMRobertaTokenizer or transformers.BertTokenizer as a tokenizer",
     )
     parser.add_argument(
         "--test_filename",
-        default="klue-ner-v1.1_test.tsv",
+        # default="klue-ner-v1.1_test.tsv",
+        # default="klue-ner-v1_dev_sample_10.tsv",
+        default="21101316_bio_test.tsv",
         type=str,
         help="Name of the test file (default: klue-ner-v1.1_test.tsv)",
     )

@@ -7,6 +7,7 @@ from transformers import PreTrainedTokenizer
 
 logger = logging.getLogger(__name__)
 
+from tqdm import tqdm # 20211014
 
 def return_tokenizer_type_and_strip_char(tokenizer: PreTrainedTokenizer):
     """
@@ -30,32 +31,21 @@ def read_data(file_path: str, tokenizer: PreTrainedTokenizer = None):
     if tokenizer:
         _, strip_char = return_tokenizer_type_and_strip_char(tokenizer)
 
-    label_list = [
-        "B-PS",
-        "I-PS",
-        "B-LC",
-        "I-LC",
-        "B-OG",
-        "I-OG",
-        "B-DT",
-        "I-DT",
-        "B-TI",
-        "I-TI",
-        "B-QT",
-        "I-QT",
-        "O",
-    ]
+    # label_list = ["B-PS","I-PS","B-LC","I-LC","B-OG","I-OG","B-DT","I-DT","B-TI","I-TI","B-QT","I-QT","O"]
+    label_list = ["B-INGR", "I-INGR", "B-QTY", "I-QTY", "B-UNIT", "I-UNIT", "O"]# 211014
     file_path = Path(file_path)
-    raw_text = file_path.read_text().strip()
-    raw_docs = re.split(r"\n\t?\n", raw_text)
+    raw_text = file_path.read_text().strip()# 공백문자가 들어가 있음
+    # raw_docs = re.split(r"\n\t?\n", raw_text)
+    raw_docs = re.split(r"[\n][#]{2}[\w]+[\n]", raw_text)# 211014 recipe, re.sub('\u200b','',sentence)
 
     data_list = []
-    for doc in raw_docs:
+    for doc in tqdm(raw_docs):
         original_clean_labels = []  # clean labels (bert clean func)
         sentence = ""
         for line in doc.split("\n"):
             if line.startswith("##"):  # skip comment
                 continue
+            elif len(line.split("\t")) !=2: continue # 20211014 
             token, tag = line.split("\t")
             sentence += token
             if token != " ":
@@ -93,7 +83,7 @@ def read_data(file_path: str, tokenizer: PreTrainedTokenizer = None):
         text_a = sentence  # original sentence
         instance = {
             "text_a": text_a,
-            "label": modi_labels,
+            "label": modi_labels,# 20211014 subword 단위 label 정보
             "original_clean_labels": original_clean_labels,
         }
         data_list.append(instance)

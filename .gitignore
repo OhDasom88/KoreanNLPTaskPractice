@@ -124,6 +124,8 @@ dmypy.json
 # custom
 klue_output/
 data/klue_benchmark/
+inference/klue-ner_code/model/
+inference/klue-ner_code/data/
 
 *.tsv
 *.json

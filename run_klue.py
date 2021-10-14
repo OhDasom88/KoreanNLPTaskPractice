@@ -12,6 +12,9 @@ from pytorch_lightning.loggers import CSVLogger
 from klue_baseline import KLUE_TASKS
 from klue_baseline.utils import Command, LoggingCallback
 
+
+from pytorch_lightning.profiler import AdvancedProfiler
+
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     datefmt="%m/%d/%Y %H:%M:%S",
@@ -128,7 +131,8 @@ def make_klue_trainer(
     train_params["num_sanity_val_steps"] = args.num_sanity_val_steps
     train_params["accumulate_grad_batches"] = args.accumulate_grad_batches
     # train_params["profiler"] = extra_train_kwargs.get("profiler", None)
-    train_params["profiler"] = extra_train_kwargs.get("profiler", 'advanced')
+    profiler = AdvancedProfiler(dirpath=args.output_dir, filename='advanced_profiling')
+    train_params["profiler"] = extra_train_kwargs.get("profiler", profiler)
 
     return pl.Trainer.from_argparse_args(
         args,
