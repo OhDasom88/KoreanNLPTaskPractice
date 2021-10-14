@@ -155,10 +155,10 @@ class OutputConvertor(object):
 
     def return_char_pred_output(self, data_list, preds):
         list_of_character_preds = []
-        for data, pred in zip(data_list, preds):
+        for data, pred in tqdm(zip(data_list, preds)):
             character_preds = self.convert_into_character_pred(data, pred)
             # list_of_character_preds.append(character_preds)
-            txt_without_space = [i for i in data['text_a'] if i != ' ']
+            txt_without_space = [i for i in data['text_a'] if i != ' ']+[' ']# sep로 label 예측값 목록에 추가되는 자리 고려?
             character_lbl_preds = [self.label_list[i] for i in character_preds[1:]]
             list_of_character_preds.append([(txt_without_space[i], tupl) for (i, tupl) in enumerate(zip(data['original_clean_labels'], character_lbl_preds))])# 20211014
 
