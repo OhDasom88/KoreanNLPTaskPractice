@@ -124,3 +124,5 @@ dmypy.json
 # custom
 klue_output/
 data/
+
+*.tar.gz

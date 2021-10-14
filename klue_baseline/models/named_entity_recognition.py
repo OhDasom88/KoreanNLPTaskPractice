@@ -54,17 +54,17 @@ class NERTransformer(BaseTransformer):
 
     @overrides
     def validation_step(self, batch: List[torch.Tensor], batch_idx: int, data_type: str = "valid") -> dict:
-        # inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": batch[3]}
-        inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": None}
+        inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": batch[3]}
+        # inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": None}
 
         if self.is_use_token_type():
             inputs["token_type_ids"] = batch[2]
 
         outputs = self(**inputs)
-        # loss, logits = outputs[:2]# label을 None으로 주면 loss를 반환하지 않음
-        logits = outputs[0]# logit 값은 동일하게 반환됨
+        loss, logits = outputs[:2]# label을 None으로 주면 loss를 반환하지 않음
+        # logits = outputs[0]# logit 값은 동일하게 반환됨
 
-        # self.log(f"{data_type}/loss", loss, on_step=False, on_epoch=True, logger=True)
+        self.log(f"{data_type}/loss", loss, on_step=False, on_epoch=True, logger=True)
 
         return {"logits": logits, "labels": inputs["labels"]}
 
