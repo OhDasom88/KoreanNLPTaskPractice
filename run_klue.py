@@ -128,7 +128,7 @@ def make_klue_trainer(
     train_params["num_sanity_val_steps"] = args.num_sanity_val_steps
     train_params["accumulate_grad_batches"] = args.accumulate_grad_batches
     # train_params["profiler"] = extra_train_kwargs.get("profiler", None)
-    train_params["profiler"] = extra_train_kwargs.get("profiler", 'simple')
+    train_params["profiler"] = extra_train_kwargs.get("profiler", 'advanced')
 
     return pl.Trainer.from_argparse_args(
         args,

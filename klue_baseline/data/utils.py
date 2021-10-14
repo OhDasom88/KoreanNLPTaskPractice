@@ -67,7 +67,7 @@ def convert_examples_to_features(
 
     labels = [label_from_example(example) for example in examples]
 
-    batch_encoding = tokenizer(
+    batch_encoding = tokenizer(# 20211014 input_ids, token_type_ids, attention_mask 반환
         [(example.text_a, example.text_b) for example in examples],
         max_length=max_length,
         padding="max_length",
