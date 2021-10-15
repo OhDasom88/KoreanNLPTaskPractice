@@ -270,8 +270,7 @@ class BaseTransformer(pl.LightningModule):
         # parser.add_argument("--warmup_ratio", default=0.2, type=float, help="Linear warmup over warmup_step ratio.")
         # parser.add_argument("--num_train_epochs", dest="max_epochs", default=4, type=int)
         # parser.add_argument("--num_train_epochs", dest="max_epochs", default=15, type=int)# DP
-        parser.add_argument("--num_train_epochs", dest="max_epochs", default=3, type=int)# NER
+        parser.add_argument("--num_train_epochs", dest="max_epochs", default=15, type=int)# NER
         parser.add_argument("--adafactor", action="store_true")
-        # parser.add_argument("--verbose_step_count", default=100, type=int)# default
-        parser.add_argument("--verbose_step_count", default=1000, type=int)
+        parser.add_argument("--verbose_step_count", default=100, type=int)# default
         return parser

@@ -129,6 +129,8 @@ inference/klue-ner_code/data/
 inference/klue-ner_code/output/
 
 profiler/
+wandb/
+
 
 *.tsv
 *.json

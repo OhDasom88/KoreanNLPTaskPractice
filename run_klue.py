@@ -15,6 +15,14 @@ from klue_baseline.utils import Command, LoggingCallback
 
 from pytorch_lightning.profiler import AdvancedProfiler#20211015
 
+# 20211015
+import wandb
+wandb.login(relogin=True, key='f613dac1f9ad9cf0fdd4e0ffd98586accc63d10b')
+from pytorch_lightning.loggers import WandbLogger
+wandb_logger = WandbLogger(name='lab17',project='recipe_generation')
+
+
+
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     datefmt="%m/%d/%Y %H:%M:%S",
@@ -139,7 +147,8 @@ def make_klue_trainer(
         args,
         weights_summary=None,
         callbacks=[logging_callback] + extra_callbacks,
-        logger=csv_logger,
+        # logger=csv_logger,# default
+        logger=wandb_logger,# 20211015
         checkpoint_callback=checkpoint_callback,
         **train_params,
     )
@@ -192,8 +201,11 @@ def main() -> None:
     trainer = make_klue_trainer(args)
     task.setup(args, command)
 
+    wandb_logger.watch(task.model)# 20211015
+
     if command == Command.Train:
         logger.info("Start to run the full optimization routine.")
+
         trainer.fit(**task.to_dict())
 
         # load the best checkpoint automatically
