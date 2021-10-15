@@ -4,7 +4,7 @@ import torch
 from overrides import overrides
 
 from pytorch_lightning.metrics import Metric
-# from torchmetrics import Metric # 20211015
+# from torchmetrics import Metric # 20211015 Metrics 구간에서 GPU를 사용하지 않는것 같음
 
 from pytorch_lightning.utilities import rank_zero_warn
 
