@@ -36,7 +36,7 @@ def read_data(file_path: str, tokenizer: PreTrainedTokenizer = None):
     file_path = Path(file_path)
     raw_text = file_path.read_text().strip()# 공백문자가 들어가 있음
     # raw_docs = re.split(r"\n\t?\n", raw_text)
-    raw_docs = re.split(r"[\n][#]{2}[\w]+[\n]", raw_text)# 211014 recipe, re.sub('\u200b','',sentence)
+    raw_docs = re.split(r"[\n][#]{2}[\w]+[\n]", re.sub('\u200b','',raw_text))# 211014 recipe, re.sub('\u200b','',sentence)
 
     data_list = []
     for doc in tqdm(raw_docs):

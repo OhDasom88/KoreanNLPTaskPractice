@@ -213,7 +213,7 @@ class BaseTransformer(pl.LightningModule):
             "--model_name_or_path",
             # default='klue/roberta-large',
             # default='klue/roberta-base',# 메모리 에러
-            default='klue/roberta-small',# 메모리 에러
+            default='klue/roberta-small',
             type=str,
             # required=True,
             help="Path to pretrained model or model identifier from huggingface.co/models",
@@ -272,5 +272,6 @@ class BaseTransformer(pl.LightningModule):
         # parser.add_argument("--num_train_epochs", dest="max_epochs", default=15, type=int)# DP
         parser.add_argument("--num_train_epochs", dest="max_epochs", default=3, type=int)# NER
         parser.add_argument("--adafactor", action="store_true")
-        parser.add_argument("--verbose_step_count", default=100, type=int)
+        # parser.add_argument("--verbose_step_count", default=100, type=int)# default
+        parser.add_argument("--verbose_step_count", default=1000, type=int)
         return parser
