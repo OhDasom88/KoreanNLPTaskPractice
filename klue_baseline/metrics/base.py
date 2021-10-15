@@ -2,8 +2,14 @@ from typing import Any, Callable, Optional
 
 import torch
 from overrides import overrides
+<<<<<<< HEAD
 # from pytorch_lightning.metrics import Metric
 from torchmetrics import Metric # 20211015
+=======
+
+from pytorch_lightning.metrics import Metric
+# from torchmetrics import Metric # 20211015
+>>>>>>> 0e1fdb1654ee43896392de2448be6480e4a3d16d
 
 from pytorch_lightning.utilities import rank_zero_warn
 

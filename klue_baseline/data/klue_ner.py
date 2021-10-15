@@ -21,9 +21,15 @@ logger = logging.getLogger(__name__)
 
 class KlueNERProcessor(DataProcessor):
 
+<<<<<<< HEAD
     # origin_train_file_name = "klue-ner-v1.1_train.tsv"#default
     # origin_dev_file_name = "klue-ner-v1.1_dev.tsv"#default
     # origin_test_file_name = "klue-ner-v1.1_test.tsv"#default
+=======
+    # origin_train_file_name = "klue-ner-v1.1_train.tsv"
+    # origin_dev_file_name = "klue-ner-v1.1_dev.tsv"
+    # origin_test_file_name = "klue-ner-v1.1_test.tsv"
+>>>>>>> 0e1fdb1654ee43896392de2448be6480e4a3d16d
     origin_train_file_name = "21101316_bio_train.tsv"# 211014
     origin_dev_file_name = "21101316_bio_val.tsv"# 211014
     origin_test_file_name = "21101316_bio_test.tsv"# 211014
@@ -97,7 +103,11 @@ class KlueNERProcessor(DataProcessor):
         ori_examples = []
         file_path = Path(file_path)
         raw_text = file_path.read_text().strip()
+<<<<<<< HEAD
         # raw_docs = re.split(r"\n\t?\n", raw_text)# default
+=======
+        # raw_docs = re.split(r"\n\t?\n", raw_text)
+>>>>>>> 0e1fdb1654ee43896392de2448be6480e4a3d16d
         raw_docs = re.split(r"[\n][#]{2}[\w]+[\n]", raw_text)# 211014 recipe
         cnt = 0
         for doc in tqdm(raw_docs):

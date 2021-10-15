@@ -127,7 +127,8 @@ def make_klue_trainer(
     args.num_gpus = 0 if args.gpus is None else len(args.gpus)
     if args.num_gpus > 1:
         train_params["accelerator"] = "dp"
-    train_params["val_check_interval"] = 0.25  # check validation set 4 times during a training epoch
+    # train_params["val_check_interval"] = 0.25  # check validation set 4 times during a training epoch
+    train_params["val_check_interval"] = 1.0  #20211015
     train_params["num_sanity_val_steps"] = args.num_sanity_val_steps
     train_params["accumulate_grad_batches"] = args.accumulate_grad_batches
     # train_params["profiler"] = extra_train_kwargs.get("profiler", None)
