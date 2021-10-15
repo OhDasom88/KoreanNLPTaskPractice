@@ -21,12 +21,12 @@ logger = logging.getLogger(__name__)
 
 class KlueNERProcessor(DataProcessor):
 
-    origin_train_file_name = "klue-ner-v1.1_train.tsv"
-    origin_dev_file_name = "klue-ner-v1.1_dev.tsv"
-    origin_test_file_name = "klue-ner-v1.1_test.tsv"
-    # origin_train_file_name = "21101316_bio_train.tsv"# 211014
-    # origin_dev_file_name = "21101316_bio_val.tsv"# 211014
-    # origin_test_file_name = "21101316_bio_test.tsv"# 211014
+    # origin_train_file_name = "klue-ner-v1.1_train.tsv"#default
+    # origin_dev_file_name = "klue-ner-v1.1_dev.tsv"#default
+    # origin_test_file_name = "klue-ner-v1.1_test.tsv"#default
+    origin_train_file_name = "21101316_bio_train.tsv"# 211014
+    origin_dev_file_name = "21101316_bio_val.tsv"# 211014
+    origin_test_file_name = "21101316_bio_test.tsv"# 211014
 
     datamodule_type = KlueDataModule
 
@@ -61,8 +61,8 @@ class KlueNERProcessor(DataProcessor):
 
     @overrides
     def get_labels(self) -> List[str]:
-        return ["B-PS", "I-PS", "B-LC", "I-LC", "B-OG", "I-OG", "B-DT", "I-DT", "B-TI", "I-TI", "B-QT", "I-QT", "O"]
-        # return ["B-INGR", "I-INGR", "B-QTY", "I-QTY", "B-UNIT", "I-UNIT", "O"]# 211014
+        # return ["B-PS", "I-PS", "B-LC", "I-LC", "B-OG", "I-OG", "B-DT", "I-DT", "B-TI", "I-TI", "B-QT", "I-QT", "O"]
+        return ["B-INGR", "I-INGR", "B-QTY", "I-QTY", "B-UNIT", "I-UNIT", "O"]# 211014
 
     def _is_punctuation(char: str) -> bool:
         """Checks whether `chars` is a punctuation character."""
@@ -97,8 +97,8 @@ class KlueNERProcessor(DataProcessor):
         ori_examples = []
         file_path = Path(file_path)
         raw_text = file_path.read_text().strip()
-        raw_docs = re.split(r"\n\t?\n", raw_text)
-        # raw_docs = re.split(r"[\n][#]{2}[\w]+[\n]", raw_text)# 211014 recipe
+        # raw_docs = re.split(r"\n\t?\n", raw_text)# default
+        raw_docs = re.split(r"[\n][#]{2}[\w]+[\n]", raw_text)# 211014 recipe
         cnt = 0
         for doc in tqdm(raw_docs):
             original_clean_tokens = []  # clean tokens (bert clean func)
@@ -108,7 +108,7 @@ class KlueNERProcessor(DataProcessor):
                 if line[:2] == "##":
                     guid = line.split("\t")[0].replace("##", "")
                     continue
-                # elif len(line.split("\t")) !=2: continue # 20211014 
+                elif len(line.split("\t")) !=2: continue # 20211014 
                 token, tag = line.split("\t")
                 sentence += token
                 if token == " ":
