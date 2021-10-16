@@ -19,7 +19,7 @@ from pytorch_lightning.profiler import AdvancedProfiler#20211015
 import wandb
 wandb.login(relogin=True, key='f613dac1f9ad9cf0fdd4e0ffd98586accc63d10b')
 from pytorch_lightning.loggers import WandbLogger
-wandb_logger = WandbLogger(name='lab17',project='recipe_generation')
+wandb_logger = WandbLogger(name='lab17',project='recipe_generation', sync_step=False)# sync_step=False https://github.com/PyTorchLightning/pytorch-lightning/issues/5194
 
 
 
@@ -136,11 +136,11 @@ def make_klue_trainer(
     if args.num_gpus > 1:
         train_params["accelerator"] = "dp"
     # train_params["val_check_interval"] = 0.25  # check validation set 4 times during a training epoch
-    train_params["val_check_interval"] = 1.0  #20211015
+    train_params["val_check_interval"] = 0.5  #20211015
     train_params["num_sanity_val_steps"] = args.num_sanity_val_steps
     train_params["accumulate_grad_batches"] = args.accumulate_grad_batches
     # train_params["profiler"] = extra_train_kwargs.get("profiler", None)
-    profiler = AdvancedProfiler(output_filename='profiler/advanced_profiling.txt')
+    profiler = AdvancedProfiler(output_filename='advanced_profiling.txt')
     train_params["profiler"] = extra_train_kwargs.get("profiler", profiler)
 
     return pl.Trainer.from_argparse_args(
